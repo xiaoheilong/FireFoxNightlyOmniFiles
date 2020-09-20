@@ -117,7 +117,7 @@ if (AppConstants.platform == "macosx") {
 
   window.onload = gBrowserInit.onLoad.bind(gBrowserInit);
   window.onunload = gBrowserInit.onUnload.bind(gBrowserInit);
-  window.onclose = WindowIsClosing;
+  //window.onclose = WindowIsClosing;
 
   window.addEventListener("MozBeforeInitialXULLayout",
     gBrowserInit.onBeforeInitialXULLayout.bind(gBrowserInit), { once: true });
@@ -473,10 +473,10 @@ if (AppConstants.platform == "macosx") {
       </menu>
       <menuseparator/>
      
-      <menuitem id="context_undoCloseTab"
+     <!--  <menuitem id="context_undoCloseTab"
                 data-lazy-l10n-id="tab-context-undo-close-tabs"
                 data-l10n-args='{"tabCount": 1}'
-                observes="History:UndoCloseTab"/>
+                observes="History:UndoCloseTab"/> -->
      <!--  <menuitem id="context_closeTab"
                 data-lazy-l10n-id="tab-context-close-tabs"
                 data-l10n-args='{"tabCount": 1}'
@@ -730,7 +730,7 @@ if (AppConstants.platform == "macosx") {
              orient="vertical"
              role="alert">
        <vbox>
-        <hbox id="UITourTooltipBody">
+        <!-- <hbox id="UITourTooltipBody">
           <image id="UITourTooltipIcon"/>
           <vbox flex="1">
             <hbox id="UITourTooltipTitleContainer">
@@ -740,7 +740,7 @@ if (AppConstants.platform == "macosx") {
             </hbox>
             <description id="UITourTooltipDescription" flex="1"/>
           </vbox>
-        </hbox>
+        </hbox> -->
         <hbox id="UITourTooltipButtons" flex="1" align="center"/>
        </vbox>
       </panel>
@@ -801,9 +801,9 @@ if (AppConstants.platform == "macosx") {
                      class="subviewbutton"
                      oncommand="SidebarUI.reversePosition()"/>
       <toolbarseparator/>
-      <toolbarbutton data-l10n-id="sidebar-menu-close"
+      <!-- <toolbarbutton data-l10n-id="sidebar-menu-close"
                      class="subviewbutton"
-                     oncommand="SidebarUI.hide()"/>
+                     oncommand="SidebarUI.hide()"/> -->
     </panel>
 
     <menupopup id="toolbar-context-menu"
@@ -1303,14 +1303,7 @@ if (AppConstants.platform == "macosx") {
     </menupopup>
 
 
-<menupopup id="placesContext"
-           onpopupshowing="this._view = PlacesUIUtils.getViewForNode(document.popupNode);
-                           if (!PlacesUIUtils.openInTabClosesMenu) {
-                             document.getElementById('placesContext_open:newtab')
-                             .setAttribute('closemenu', 'single');
-                           }
-                           return this._view.buildContextMenu(this);"
-           onpopuphiding="this._view.destroyContextMenu();">
+<!-- <menupopup id="placesContext">
   <menuitem id="placesContext_open"
             command="placesCmd_open"
             data-l10n-id="places-open"
@@ -1416,7 +1409,7 @@ if (AppConstants.platform == "macosx") {
             command="placesCmd_show:info"
             data-l10n-id="places-properties"
             selection="bookmark|folder|query"/>
-</menupopup>
+</menupopup> -->
 
 <menupopup id="placesContextManaged"
            onpopupshowing="PlacesToolbarHelper.updateManagedBookmarksContextMenu(this)">
@@ -1697,7 +1690,7 @@ if (AppConstants.platform == "macosx") {
   <!-- This menu is here because not having it in the menu in which it's used flickers
        when hover styles overlap. See https://bugzilla.mozilla.org/show_bug.cgi?id=1378427 .
        -->
-  <menupopup id="customizationPanelItemContextMenu"
+ <!--  <menupopup id="customizationPanelItemContextMenu"
              onpopupshowing="gCustomizeMode.onPanelContextMenuShowing(event); ToolbarContextMenu.updateExtension(this)">
     <menuitem oncommand="ToolbarContextMenu.openAboutAddonsForContextAction(this.parentElement)"
               data-lazy-l10n-id="toolbar-context-menu-manage-extension"
@@ -1731,10 +1724,10 @@ if (AppConstants.platform == "macosx") {
     <menuitem command="cmd_CustomizeToolbars"
               class="viewCustomizeToolbar"
               data-lazy-l10n-id="toolbar-context-menu-view-customize-toolbar"/>
-  </menupopup>
+  </menupopup> -->
 </panel>
 
-<html:template id="panicButtonNotificationTemplate">
+<!-- <html:template id="panicButtonNotificationTemplate">
   <panel id="panic-button-success-notification"
          type="arrow"
          position="bottomcenter topright"
@@ -1752,7 +1745,7 @@ if (AppConstants.platform == "macosx") {
             id="panic-button-success-closebutton"
             oncommand="PanicButtonNotifier.close()"/>
   </panel>
-</html:template>
+</html:template> -->
 
 <html:template id="appMenuNotificationTemplate">
   <panel id="appMenu-notification-popup"
@@ -3608,454 +3601,7 @@ if (AppConstants.platform == "macosx") {
 
     <vbox id="titlebar">
       <!-- Menu -->
-      <toolbar type="menubar" id="toolbar-menubar"
-               class="browser-toolbar chromeclass-menubar titlebar-color"
-               customizable="true"
-               mode="icons"
-               toolbarname="&menubarCmd.label;"
-               accesskey="&menubarCmd.accesskey;"
-               autohide="true"
-               context="toolbar-context-menu">
-        <toolbaritem id="menubar-items" align="center">
 
-       <menubar id="main-menubar"
-                onpopupshowing="if (event.target.parentNode.parentNode == this &amp;&amp;
-                                    !('@mozilla.org/widget/nativemenuservice;1' in Cc))
-                                  this.setAttribute('openedwithkey',
-                                                    event.target.parentNode.openedWithKey);">
-            <menu id="file-menu" data-l10n-id="menu-file">
-              <menupopup id="menu_FilePopup"
-                         onpopupshowing="updateFileMenuUserContextUIVisibility('menu_newUserContext');
-                                         updateImportCommandEnabledState();
-                                         PrintUtils.updatePrintPreviewMenuHiddenState();">
-                <menuitem id="menu_newNavigatorTab"
-                          command="cmd_newNavigatorTab"
-                          key="key_newNavigatorTab" data-l10n-id="menu-file-new-tab"/>
-                <menu id="menu_newUserContext"
-                      hidden="true" data-l10n-id="menu-file-new-container-tab">
-                  <menupopup onpopupshowing="return createUserContextMenu(event);" />
-                </menu>
-                <menuitem id="menu_newNavigator"
-                          key="key_newNavigator"
-                          command="cmd_newNavigator" data-l10n-id="menu-file-new-window"/>
-                <menuitem id="menu_newPrivateWindow"
-                          command="Tools:PrivateBrowsing"
-                          key="key_privatebrowsing" data-l10n-id="menu-file-new-private-window"/>
-                <menuitem id="menu_newFissionWindow"
-                          command="Tools:FissionWindow"
-                          accesskey="s" label="New Fission Window"/>
-                <menuitem id="menu_newNonFissionWindow"
-                          command="Tools:NonFissionWindow"
-                          accesskey="s" label="New Non-Fission Window"/>
-                <menuitem id="menu_openLocation"
-                          hidden="true"
-                          command="Browser:OpenLocation"
-                          key="focusURLBar" data-l10n-id="menu-file-open-location"/>
-                <menuitem id="menu_openFile"
-                          command="Browser:OpenFile"
-                          key="openFileKb" data-l10n-id="menu-file-open-file"/>
-                <menuitem id="menu_close"
-                          class="show-only-for-keyboard"
-                          key="key_close"
-                          command="cmd_close" data-l10n-id="menu-file-close"/>
-                <menuitem id="menu_closeWindow"
-                          class="show-only-for-keyboard"
-                          hidden="true"
-                          command="cmd_closeWindow"
-                          key="key_closeWindow" data-l10n-id="menu-file-close-window"/>
-                <menuseparator/>
-                <menuitem id="menu_savePage"
-                          key="key_savePage"
-                          command="Browser:SavePage" data-l10n-id="menu-file-save-page"/>
-                <menuitem id="menu_sendLink"
-                          command="Browser:SendLink" data-l10n-id="menu-file-email-link"/>
-                <menuseparator/>
-                <menuitem id="menu_printSetup"
-                          command="cmd_pageSetup" data-l10n-id="menu-file-print-setup" hidden="true"/>
-                <menuitem id="menu_printPreview"
-                          command="cmd_printPreview" data-l10n-id="menu-file-print-preview" hidden="true"/>
-                <menuitem id="menu_print"
-                          key="printKb"
-                          command="cmd_print" data-l10n-id="menu-file-print"/>
-                <menuseparator/>
-                <menuitem id="menu_importFromAnotherBrowser"
-                          command="cmd_file_importFromAnotherBrowser" data-l10n-id="menu-file-import-from-another-browser"/>
-                <menuseparator/>
-                <menuitem id="goOfflineMenuitem"
-                          type="checkbox"
-                          command="cmd_toggleOfflineStatus" data-l10n-id="menu-file-go-offline"/>
-<!-- We need to leave those strings in DTD until bug 1568133 is fixed. -->
-                <menuitem id="menu_FileQuitItem"
-                          label="&quitApplicationCmdWin2.label;"
-                          accesskey="&quitApplicationCmdWin2.accesskey;"
-                          key="key_quitApplication"
-                          command="cmd_quitApplication"/>
-              </menupopup>
-            </menu>
-
-            <menu id="edit-menu" data-l10n-id="menu-edit">
-              <menupopup id="menu_EditPopup"
-                         onpopupshowing="updateEditUIVisibility()"
-                         onpopuphidden="updateEditUIVisibility()">
-                <menuitem id="menu_undo"
-                          key="key_undo"
-                          command="cmd_undo" data-l10n-id="text-action-undo"/>
-                <menuitem id="menu_redo"
-                          key="key_redo"
-                          command="cmd_redo" data-l10n-id="text-action-redo"/>
-                <menuseparator/>
-                <menuitem id="menu_cut"
-                          key="key_cut"
-                          command="cmd_cut" data-l10n-id="text-action-cut"/>
-                <menuitem id="menu_copy"
-                          key="key_copy"
-                          command="cmd_copy" data-l10n-id="text-action-copy"/>
-                <menuitem id="menu_paste"
-                          key="key_paste"
-                          command="cmd_paste" data-l10n-id="text-action-paste"/>
-                <menuitem id="menu_delete"
-                          key="key_delete"
-                          command="cmd_delete" data-l10n-id="text-action-delete"/>
-                <menuseparator/>
-                <menuitem id="menu_selectAll"
-                          key="key_selectAll"
-                          command="cmd_selectAll" data-l10n-id="text-action-select-all"/>
-                <menuseparator/>
-                <menuitem id="menu_find"
-                          key="key_find"
-                          command="cmd_find" data-l10n-id="menu-edit-find-on"/>
-                <menuitem id="menu_findAgain"
-                          class="show-only-for-keyboard"
-                          key="key_findAgain"
-                          command="cmd_findAgain" data-l10n-id="menu-edit-find-again"/>
-                <menuseparator hidden="true" id="textfieldDirection-separator"/>
-                <menuitem id="textfieldDirection-swap"
-                          command="cmd_switchTextDirection"
-                          key="key_switchTextDirection"
-                          hidden="true" data-l10n-id="menu-edit-bidi-switch-text-direction"/>
-              </menupopup>
-            </menu>
-
-            <menu id="view-menu" data-l10n-id="menu-view">
-              <menupopup id="menu_viewPopup"
-                         onpopupshowing="updateCharacterEncodingMenuState();">
-                <menu id="viewToolbarsMenu" data-l10n-id="menu-view-toolbars-menu">
-                  <menupopup id="view-menu-popup" onpopupshowing="onViewToolbarsPopupShowing(event);">
-                    <menuseparator/>
-                    <menuitem id="menu_customizeToolbars"
-                              command="cmd_CustomizeToolbars" data-l10n-id="menu-view-customize-toolbar"/>
-                  </menupopup>
-                </menu>
-                <menu id="viewSidebarMenuMenu" data-l10n-id="menu-view-sidebar">
-                  <menupopup id="viewSidebarMenu">
-                    <menuitem id="menu_bookmarksSidebar"
-                              type="checkbox"
-                              key="viewBookmarksSidebarKb"
-                              oncommand="SidebarUI.toggle('viewBookmarksSidebar');" data-l10n-id="menu-view-bookmarks"/>
-                    <menuitem id="menu_historySidebar"
-                              type="checkbox"
-                              key="key_gotoHistory"
-                              oncommand="SidebarUI.toggle('viewHistorySidebar');" data-l10n-id="menu-view-history-button"/>
-                    <menuitem id="menu_tabsSidebar"
-                              type="checkbox"
-                              class="sync-ui-item"
-                              oncommand="SidebarUI.toggle('viewTabsSidebar');" data-l10n-id="menu-view-synced-tabs-sidebar"/>
-                  </menupopup>
-                </menu>
-                <menuseparator/>
-                <menu id="viewFullZoomMenu"
-                      onpopupshowing="FullZoom.updateMenu();" data-l10n-id="menu-view-full-zoom">
-                  <menupopup>
-                    <menuitem id="menu_zoomEnlarge"
-                              key="key_fullZoomEnlarge"
-                              command="cmd_fullZoomEnlarge" data-l10n-id="menu-view-full-zoom-enlarge"/>
-                    <menuitem id="menu_zoomReduce"
-                              key="key_fullZoomReduce"
-                              command="cmd_fullZoomReduce" data-l10n-id="menu-view-full-zoom-reduce"/>
-                    <menuseparator/>
-                    <menuitem id="menu_zoomReset"
-                              key="key_fullZoomReset"
-                              command="cmd_fullZoomReset" data-l10n-id="menu-view-full-zoom-actual-size"/>
-                    <menuseparator/>
-                    <menuitem id="toggle_zoom"
-                              type="checkbox"
-                              command="cmd_fullZoomToggle"
-                              checked="false" data-l10n-id="menu-view-full-zoom-toggle"/>
-                  </menupopup>
-                </menu>
-                <menu id="pageStyleMenu" data-l10n-id="menu-view-page-style-menu">
-                  <menupopup onpopupshowing="gPageStyleMenu.fillPopup(this);">
-                    <menuitem id="menu_pageStyleNoStyle"
-                              oncommand="gPageStyleMenu.disableStyle();"
-                              type="radio" data-l10n-id="menu-view-page-style-no-style"/>
-                    <menuitem id="menu_pageStylePersistentOnly"
-                              oncommand="gPageStyleMenu.switchStyleSheet(null);"
-                              type="radio"
-                              checked="true" data-l10n-id="menu-view-page-basic-style"/>
-                    <menuseparator/>
-                  </menupopup>
-                </menu>
-                <menu id="charsetMenu"
-                    oncommand="BrowserSetForcedCharacterSet(event.target.getAttribute('charset'));"
-                    onpopupshowing="CharsetMenu.build(event.target); UpdateCurrentCharset(this);" data-l10n-id="menu-view-charset">
-                  <menupopup>
-                  </menupopup>
-                </menu>
-                <menuseparator/>
-                <menuitem id="fullScreenItem"
-                          key="key_fullScreen"
-                          type="checkbox"
-                          observes="View:FullScreen" data-l10n-id="menu-view-full-screen"/>
-                <menuitem id="menu_readerModeItem"
-                          observes="View:ReaderView"
-                          key="key_toggleReaderMode"
-                          hidden="true"/>
-                <menuitem id="menu_showAllTabs"
-                          hidden="true"
-                          command="Browser:ShowAllTabs"
-                          key="key_showAllTabs" data-l10n-id="menu-view-show-all-tabs"/>
-                <menuseparator hidden="true" id="documentDirection-separator"/>
-                <menuitem id="documentDirection-swap"
-                          hidden="true"
-                          oncommand="gBrowser.selectedBrowser.sendMessageToActor('SwitchDocumentDirection', {}, 'SwitchDocumentDirection', 'roots');" data-l10n-id="menu-view-bidi-switch-page-direction"/>
-              </menupopup>
-            </menu>
-
-            <menu id="history-menu" data-l10n-id="menu-history">
-              <menupopup id="goPopup"
-                         placespopup="true"
-                         is="places-popup"
-                         oncommand="this.parentNode._placesView._onCommand(event);"
-                         onclick="checkForMiddleClick(this, event);"
-                         onpopupshowing="if (!this.parentNode._placesView)
-                                           new HistoryMenu(event);"
-                         tooltip="bhTooltip"
-                         popupsinherittooltip="true">
-                <menuitem id="menu_showAllHistory"
-                          key="showAllHistoryKb"
-                          command="Browser:ShowAllHistory" data-l10n-id="menu-history-show-all-history"/>
-                <menuitem id="sanitizeItem"
-                          key="key_sanitize"
-                          command="Tools:Sanitize" data-l10n-id="menu-history-clear-recent-history"/>
-                <menuseparator id="sanitizeSeparator"/>
-                <menuitem id="sync-tabs-menuitem"
-                          oncommand="gSync.openSyncedTabsPanel();"
-                          hidden="true" data-l10n-id="menu-history-synced-tabs"/>
-                <menuitem id="historyRestoreLastSession"
-                          command="Browser:RestoreLastSession" data-l10n-id="menu-history-restore-last-session"/>
-                <menuitem id="hiddenTabsMenu"
-                          oncommand="gTabsPanel.showHiddenTabsPanel(event);"
-                          hidden="true" data-l10n-id="menu-history-hidden-tabs"/>
-                <menu id="historyUndoMenu"
-                      disabled="true" data-l10n-id="menu-history-undo-menu">
-                  <menupopup id="historyUndoPopup"
-                             placespopup="true"
-                             is="places-popup"
-                             onpopupshowing="document.getElementById('history-menu')._placesView.populateUndoSubmenu();"/>
-                </menu>
-                <menu id="historyUndoWindowMenu"
-                      disabled="true" data-l10n-id="menu-history-undo-window-menu">
-                  <menupopup id="historyUndoWindowPopup"
-                             placespopup="true"
-                             is="places-popup"
-                             onpopupshowing="document.getElementById('history-menu')._placesView.populateUndoWindowSubmenu();">
-                  </menupopup>
-                </menu>
-                <menuseparator id="startHistorySeparator"
-                               class="hide-if-empty-places-result"/>
-              </menupopup>
-            </menu>
-
-  <menu id="bookmarksMenu"
-        ondragenter="PlacesMenuDNDHandler.onDragEnter(event);"
-        ondragover="PlacesMenuDNDHandler.onDragOver(event);"
-        ondrop="PlacesMenuDNDHandler.onDrop(event);"
-        data-l10n-id="menu-bookmarks-menu">
-    <menupopup id="bookmarksMenuPopup"
-               placespopup="true"
-               is="places-popup"
-               context="placesContext"
-               openInTabs="children"
-               onmouseup="BookmarksEventHandler.onMouseUp(event);"
-               oncommand="BookmarksEventHandler.onCommand(event);"
-               onclick="BookmarksEventHandler.onClick(event, this.parentNode._placesView);"
-               onpopupshowing="BookmarkingUI.onMainMenuPopupShowing(event);
-                               if (!this.parentNode._placesView)
-                                 new PlacesMenu(event, `place:parent=${PlacesUtils.bookmarks.menuGuid}`);"
-               tooltip="bhTooltip" popupsinherittooltip="true">
-      <menuitem id="bookmarksShowAll"
-                command="Browser:ShowAllBookmarks"
-                key="manBookmarkKb"
-                data-l10n-id="menu-bookmarks-show-all"/>
-      <menuseparator id="organizeBookmarksSeparator"/>
-      <menuitem id="menu_bookmarkThisPage"
-                command="Browser:AddBookmarkAs"
-                key="addBookmarkAsKb"
-                data-l10n-id="menu-bookmark-this-page"/>
-      <menuitem id="menu_bookmarkAllTabs"
-                class="show-only-for-keyboard"
-                command="Browser:BookmarkAllTabs"
-                key="bookmarkAllTabsKb"
-                data-l10n-id="menu-bookmarks-all-tabs"/>
-      <menuseparator id="bookmarksToolbarSeparator"/>
-      <menu id="bookmarksToolbarFolderMenu"
-            class="menu-iconic bookmark-item"
-            container="true"
-            data-l10n-id="menu-bookmarks-toolbar">
-        <menupopup id="bookmarksToolbarFolderPopup"
-                   placespopup="true"
-                   is="places-popup"
-                   context="placesContext"
-                   onpopupshowing="if (!this.parentNode._placesView)
-                                     new PlacesMenu(event, `place:parent=${PlacesUtils.bookmarks.toolbarGuid}`);"/>
-      </menu>
-      <menu id="menu_unsortedBookmarks"
-            class="menu-iconic bookmark-item"
-            container="true"
-            data-l10n-id="menu-bookmarks-other">
-        <menupopup id="otherBookmarksFolderPopup"
-                   placespopup="true"
-                   is="places-popup"
-                   context="placesContext"
-                   onpopupshowing="if (!this.parentNode._placesView)
-                                     new PlacesMenu(event, `place:parent=${PlacesUtils.bookmarks.unfiledGuid}`);"/>
-      </menu>
-      <menu id="menu_mobileBookmarks"
-            class="menu-iconic bookmark-item"
-            hidden="true"
-            container="true"
-            data-l10n-id="menu-bookmarks-mobile">
-        <menupopup id="mobileBookmarksFolderPopup"
-                   placespopup="true"
-                   is="places-popup"
-                   context="placesContext"
-                   onpopupshowing="if (!this.parentNode._placesView)
-                                     new PlacesMenu(event, `place:parent=${PlacesUtils.bookmarks.mobileGuid}`);"/>
-      </menu>
-      <menuseparator id="bookmarksMenuItemsSeparator"/>
-      <!-- Bookmarks menu items -->
-    </menupopup>
-  </menu>
-
-            <menu id="tools-menu" data-l10n-id="menu-tools">
-              <menupopup id="menu_ToolsPopup">
-              <menuitem id="menu_openDownloads"
-                        key="key_openDownloads"
-                        command="Tools:Downloads" data-l10n-id="menu-tools-downloads"/>
-              <menuitem id="menu_openAddons"
-                        key="key_openAddons"
-                        command="Tools:Addons" data-l10n-id="menu-tools-addons"/>
-
-              <!-- only one of sync-setup, sync-enable, sync-unverifieditem, sync-syncnowitem or sync-reauthitem will be showing at once -->
-              <menuitem id="sync-setup"
-                        class="sync-ui-item"
-                        hidden="true"
-                        oncommand="gSync.openPrefs('menubar')" data-l10n-id="menu-tools-fxa-sign-in"/>
-              <menuitem id="sync-enable"
-                        class="sync-ui-item"
-                        hidden="true"
-                        oncommand="gSync.openPrefs('menubar')" data-l10n-id="menu-tools-turn-on-sync"/>
-              <menuitem id="sync-unverifieditem"
-                        class="sync-ui-item"
-                        hidden="true"
-                        oncommand="gSync.openPrefs('menubar')" data-l10n-id="menu-tools-fxa-sign-in"/>
-              <menuitem id="sync-syncnowitem"
-                        class="sync-ui-item"
-                        hidden="true"
-                        oncommand="gSync.doSync(event);" data-l10n-id="menu-tools-sync-now"/>
-              <menuitem id="sync-reauthitem"
-                        class="sync-ui-item"
-                        hidden="true"
-                        oncommand="gSync.openSignInAgainPage('menubar');" data-l10n-id="menu-tools-fxa-re-auth"/>
-              <menuseparator id="devToolsSeparator"/>
-              <menu id="webDeveloperMenu" data-l10n-id="menu-tools-web-developer">
-                <menupopup id="menuWebDeveloperPopup">
-                  <menuitem id="menu_pageSource"
-                            key="key_viewSource"
-                            command="View:PageSource" data-l10n-id="menu-tools-page-source"/>
-                </menupopup>
-              </menu>
-              <menuitem id="menu_pageInfo"
-                        key="key_viewInfo"
-                        command="View:PageInfo" data-l10n-id="menu-tools-page-info"/>
-              <menuseparator id="prefSep"/>
-              <menuitem id="menu_preferences"
-                        oncommand="openPreferences(undefined);" data-l10n-id="menu-preferences"/>
-              </menupopup>
-            </menu>
-            <menu id="helpMenu"
-                   data-l10n-id="menu-help">
-              <menupopup id="menu_HelpPopup" onpopupshowing="buildHelpMenu();">
-                <menuitem id="menu_openHelp"
-                          oncommand="openHelpLink('firefox-help')"
-                          onclick="checkForMiddleClick(this, event);"
-                          data-l10n-id="menu-help-product"
-                          />
-                <menuitem id="menu_openTour"
-                          oncommand="openTourPage();" data-l10n-id="menu-help-show-tour"/>
-                <menuitem id="help_importFromAnotherBrowser"
-                          command="cmd_help_importFromAnotherBrowser" data-l10n-id="menu-help-import-from-another-browser"/>
-                <menuitem id="menu_keyboardShortcuts"
-                          oncommand="openHelpLink('keyboard-shortcuts')"
-                          onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-keyboard-shortcuts"/>
-                <menuitem id="troubleShooting"
-                          oncommand="openTroubleshootingPage()"
-                          onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-troubleshooting-info"/>
-                <menuitem id="feedbackPage"
-                          oncommand="openFeedbackPage()"
-                          onclick="checkForMiddleClick(this, event);" data-l10n-id="menu-help-feedback-page"/>
-                <menuitem id="helpSafeMode"
-                          oncommand="safeModeRestart();" data-l10n-id="menu-help-safe-mode-without-addons"/>
-                <menuitem id="menu_HelpPopup_reportPhishingtoolmenu"
-                          disabled="true"
-                          oncommand="openUILink(gSafeBrowsing.getReportURL('Phish'), event, {triggeringPrincipal: Services.scriptSecurityManager.createNullPrincipal({})});"
-                          onclick="checkForMiddleClick(this, event);"
-                          hidden="true" data-l10n-id="menu-help-report-deceptive-site"/>
-                <menuitem id="menu_HelpPopup_reportPhishingErrortoolmenu"
-                          disabled="true"
-                          oncommand="ReportFalseDeceptiveSite();"
-                          onclick="checkForMiddleClick(this, event);"
-                          data-l10n-id="menu-help-not-deceptive"
-                          hidden="true"/>
-                <menuseparator id="helpPolicySeparator"
-                          hidden="true"/>
-                <menuitem id="helpPolicySupport"
-                          hidden="true"
-                          oncommand="openUILinkIn(Services.policies.getSupportMenu().URL.href, 'tab', {triggeringPrincipal: Services.scriptSecurityManager.createNullPrincipal({})});"
-                          onclick="checkForMiddleClick(this, event);"/>
-                <menuseparator id="aboutSeparator"/>
-                <!-- We need to leave those strings in DTD until bug 1568133 is fixed. -->
-                <menuitem id="aboutName"
-                          accesskey="&aboutProduct2.accesskey;"
-                          label="&aboutProduct2.label;"
-                          oncommand="openAboutDialog();"/>
-              </menupopup>
-          </menu>
-        </menubar>
-        </toolbaritem>
-        <spacer flex="1" skipintoolbarset="true" style="-moz-box-ordinal-group: 1000;"/>
-
-<!-- <hbox class="titlebar-buttonbox-container" skipintoolbarset="true">
-  <hbox class="titlebar-buttonbox titlebar-color">
-    <toolbarbutton class="titlebar-button titlebar-min"
-                   oncommand="window.minimize();"
-                   data-l10n-id="browser-window-minimize-button"
-                   />
-    <toolbarbutton class="titlebar-button titlebar-max"
-                   oncommand="window.maximize();"
-                   data-l10n-id="browser-window-maximize-button"
-                   />
-    <toolbarbutton class="titlebar-button titlebar-restore"
-                   oncommand="window.restore();"
-                   data-l10n-id="browser-window-restore-down-button"
-                   />
-    <toolbarbutton class="titlebar-button titlebar-close"
-                   command="cmd_closeWindow"
-                   data-l10n-id="browser-window-close-button"
-                   />
-  </hbox>
-</hbox> -->
-      </toolbar>
 
       <toolbar id="TabsToolbar"
                class="browser-toolbar titlebar-color"
@@ -4065,11 +3611,12 @@ if (AppConstants.platform == "macosx") {
                mode="icons"
                aria-label="&tabsToolbar.label;"
                context="toolbar-context-menu"
-               flex="1">
+               flex="1"
+               hidden="true">
 
-        <hbox class="titlebar-spacer" type="pre-tabs"/>
+        <hbox class="titlebar-spacer" type="pre-tabs" hidden="true"/>
 
-        <hbox flex="1" align="end" class="toolbar-items">
+        <hbox flex="1" align="end" class="toolbar-items" hidden="true">
           <hbox id="TabsToolbar-customization-target" flex="1">
             <tabs id="tabbrowser-tabs"
                   is="tabbrowser-tabs"
@@ -4087,34 +3634,8 @@ if (AppConstants.platform == "macosx") {
               <html:span id="tabbrowser-tab-a11y-desc" hidden="true"/>
             </tabs>
 
-          <!--   <toolbarbutton id="new-tab-button"
-                           class="toolbarbutton-1 chromeclass-toolbar-additional"
-                           label="&tabCmd.label;"
-                           command="cmd_newNavigatorTab"
-                           onclick="checkForMiddleClick(this, event);"
-                           tooltip="dynamic-shortcut-tooltip"
-                           ondrop="newTabButtonObserver.onDrop(event)"
-                           ondragover="newTabButtonObserver.onDragOver(event)"
-                           ondragenter="newTabButtonObserver.onDragOver(event)"
-                           ondragexit="newTabButtonObserver.onDragExit(event)"
-                           cui-areatype="toolbar"
-                           removable="true"/>
-
-            <toolbarbutton id="alltabs-button"
-                           class="toolbarbutton-1 chromeclass-toolbar-additional tabs-alltabs-button"
-                           badged="true"
-                           oncommand="gTabsPanel.showAllTabsPanel(event);"
-                           label="&listAllTabs.label;"
-                           tooltiptext="&listAllTabs.label;"
-                           removable="false"/> -->
           </hbox>
         </hbox>
-
-        <hbox class="titlebar-spacer" type="post-tabs"/>
-
-        <button class="accessibility-indicator" tooltiptext="&accessibilityIndicator.tooltip;"
-                aria-live="polite"/>
-        <hbox class="private-browsing-indicator"/>
 
 
       </toolbar>
@@ -4130,14 +3651,16 @@ if (AppConstants.platform == "macosx") {
              overflowbutton="nav-bar-overflow-button"
              overflowtarget="widget-overflow-list"
              overflowpanel="widget-overflow"
-             context="toolbar-context-menu">
+             context="toolbar-context-menu"
+             hidden="true">
       <toolbaritem id="urlbar-container" flex="400" persist="width"
                      removable="false"
-                     class="chromeclass-location" overflows="false">
+                     class="chromeclass-location" overflows="false" hidden="true">
           <hbox id="urlbar" flex="1"
                 context=""
                 focused="true"
-                pageproxystate="invalid">
+                pageproxystate="invalid" 
+                hidden="true">
             <hbox id="urlbar-input-container"
                   flex="1"
                   pageproxystate="invalid">
