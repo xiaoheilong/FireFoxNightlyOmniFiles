@@ -128,6 +128,7 @@ if (AppConstants.platform == "macosx") {
   // may be leaking things because they will never be destroyed after.
   window.addEventListener("DOMContentLoaded",
     gBrowserInit.onDOMContentLoaded.bind(gBrowserInit), { once: true });
+  BrowserFullScreen();
 </script>
 </head>
 <html:body xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
