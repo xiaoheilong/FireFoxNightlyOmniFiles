@@ -1,0 +1,31 @@
+content activity-stream browser/content/activity-stream/ contentaccessible=yes
+content branding browser/content/branding/ contentaccessible=yes
+content browser browser/content/browser/ contentaccessible=yes
+content fxr browser/content/browser/fxr/
+content payments browser/content/payments/
+content pocket browser/content/pocket/ contentaccessible=yes
+skin browser classic/1.0 browser/skin/classic/browser/
+content devtools-startup devtools-startup/content/
+content devtools devtools/content/
+content devtools-jsonview-styles devtools/modules/devtools/client/jsonview/css/ contentaccessible=yes
+skin devtools classic/1.0 devtools/skin/
+locale branding zh-CN zh-CN/locale/branding/
+locale browser zh-CN zh-CN/locale/browser/
+locale browser-region zh-CN zh-CN/locale/browser-region/
+locale devtools zh-CN zh-CN/locale/zh-CN/devtools/client/
+locale devtools-shared zh-CN zh-CN/locale/zh-CN/devtools/shared/
+locale devtools-startup zh-CN zh-CN/locale/zh-CN/devtools/startup/
+override chrome://global/content/license.html chrome://browser/content/license.html
+override chrome://global/content/netError.xhtml chrome://browser/content/aboutNetError.xhtml
+override chrome://global/locale/app-extension-fields.properties chrome://browser/locale/app-extension-fields.properties
+override chrome://global/locale/appstrings.properties chrome://browser/locale/appstrings.properties
+override chrome://global/locale/netError.dtd chrome://browser/locale/netError.dtd
+override chrome://mozapps/locale/downloads/settingsChange.dtd chrome://browser/locale/downloads/settingsChange.dtd
+resource activity-stream browser/res/activity-stream/ contentaccessible=yes
+resource builtin-themes browser/content/builtin-themes/
+resource payments browser/res/payments/
+resource search-extensions browser/search-extensions/ contentaccessible=yes
+resource usercontext-content browser/content/ contentaccessible=yes
+resource devtools devtools/modules/devtools/
+resource devtools-client-jsonview resource://devtools/client/jsonview/ contentaccessible=yes
+resource devtools-client-shared resource://devtools/client/shared/ contentaccessible=yes

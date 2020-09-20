@@ -1,0 +1,2 @@
+window.__FROM_STARTUP_CACHE__ = true;
+window.NewtabRenderUtils.renderCache({{ STATE }});

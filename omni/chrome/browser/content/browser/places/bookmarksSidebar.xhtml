@@ -1,0 +1,256 @@
+<?xml version="1.0"?> <!-- -*- Mode: xml; indent-tabs-mode: nil; -*- -->
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<?xml-stylesheet href="chrome://browser/content/places/places.css"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/places/tree-icons.css"?>
+<?xml-stylesheet href="chrome://browser/skin/places/sidebar.css"?>
+
+<!DOCTYPE window [
+<!ENTITY % editMenuDTD SYSTEM "chrome://global/locale/editMenuOverlay.dtd">
+%editMenuDTD;
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd">
+%browserDTD;
+]>
+
+<window id="bookmarksPanel"
+        class="sidebar-panel"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        onload="init();"
+        onunload="PlacesUIUtils.setMouseoverURL('', window);"
+        aria-label="&bookmarksButton.label;">
+
+  <script src="chrome://browser/content/places/bookmarksSidebar.js"/>
+  <script src="chrome://global/content/globalOverlay.js"/>
+  <script src="chrome://browser/content/utilityOverlay.js"/>
+  <script src="chrome://browser/content/contentTheme.js"/>
+  <script src="chrome://browser/content/places/places-tree.js"/>
+  <script src="chrome://global/content/editMenuOverlay.js"/>
+
+  <linkset>
+    <html:link rel="localization" href="toolkit/global/textActions.ftl"/>
+    <html:link rel="localization" href="browser/places.ftl"/>
+  </linkset>
+
+
+<commandset id="placesCommands"
+            commandupdater="true"
+            events="focus,sort,places"
+            oncommandupdate="PlacesUIUtils.updateCommands(window);">
+  <command id="Browser:ShowAllBookmarks"
+           oncommand="PlacesCommandHook.showPlacesOrganizer('UnfiledBookmarks');"/>
+  <command id="Browser:ShowAllHistory"
+           oncommand="PlacesCommandHook.showPlacesOrganizer('History');"/>
+
+  <command id="placesCmd_open"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_open');"/>
+  <command id="placesCmd_open:window"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_open:window');"/>
+  <command id="placesCmd_open:privatewindow"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_open:privatewindow');"/>
+  <command id="placesCmd_open:tab"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_open:tab');"/>
+
+  <command id="placesCmd_new:bookmark"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_new:bookmark');"/>
+  <command id="placesCmd_new:folder"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_new:folder');"/>
+  <command id="placesCmd_new:separator"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_new:separator');"/>
+  <command id="placesCmd_show:info"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_show:info');"/>
+  <command id="placesCmd_rename"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_show:info');"
+           observes="placesCmd_show:info"/>
+  <command id="placesCmd_sortBy:name"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_sortBy:name');"/>
+  <command id="placesCmd_deleteDataHost"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_deleteDataHost');"/>
+  <command id="placesCmd_createBookmark"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_createBookmark');"/>
+
+  <!-- Special versions of cut/copy/paste/delete which check for an open context menu. -->
+  <command id="placesCmd_cut"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_cut');"/>
+  <command id="placesCmd_copy"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_copy');"/>
+  <command id="placesCmd_paste"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_paste');"/>
+  <command id="placesCmd_delete"
+           oncommand="PlacesUIUtils.doCommand(window, 'placesCmd_delete');"/>
+</commandset>
+
+<menupopup id="placesContext"
+           onpopupshowing="this._view = PlacesUIUtils.getViewForNode(document.popupNode);
+                           if (!PlacesUIUtils.openInTabClosesMenu) {
+                             document.getElementById('placesContext_open:newtab')
+                             .setAttribute('closemenu', 'single');
+                           }
+                           return this._view.buildContextMenu(this);"
+           onpopuphiding="this._view.destroyContextMenu();">
+  <menuitem id="placesContext_open"
+            command="placesCmd_open"
+            data-l10n-id="places-open"
+            default="true"
+            selectiontype="single"
+            selection="link"
+            forcehideintabbrowser="true"/>
+  <menuitem id="placesContext_open:newtab"
+            command="placesCmd_open:tab"
+            data-l10n-id="places-open-tab"
+            selectiontype="single"
+            selection="link"/>
+  <menuitem id="placesContext_openContainer:tabs"
+            oncommand="var view = PlacesUIUtils.getViewForNode(document.popupNode);
+                       view.controller.openSelectionInTabs(event);"
+            onclick="checkForMiddleClick(this, event);"
+            data-l10n-id="places-open-all-in-tabs"
+            selectiontype="single|none"
+            selection="folder|host|query"/>
+  <menuitem id="placesContext_openLinks:tabs"
+            oncommand="var view = PlacesUIUtils.getViewForNode(document.popupNode);
+                       view.controller.openSelectionInTabs(event);"
+            onclick="checkForMiddleClick(this, event);"
+            data-l10n-id="places-open-all-in-tabs"
+            selectiontype="multiple"
+            selection="link"/>
+  <menuitem id="placesContext_open:newwindow"
+            command="placesCmd_open:window"
+            data-l10n-id="places-open-window"
+            selectiontype="single"
+            selection="link"/>
+  <menuitem id="placesContext_open:newprivatewindow"
+            command="placesCmd_open:privatewindow"
+            data-l10n-id="places-open-private-window"
+            selectiontype="single"
+            selection="link"
+            hideifprivatebrowsing="true"/>
+  <menuseparator id="placesContext_openSeparator"/>
+  <menuitem id="placesContext_new:bookmark"
+            command="placesCmd_new:bookmark"
+            data-l10n-id="places-new-bookmark"
+            selectiontype="any"
+            hideifnoinsertionpoint="true"/>
+  <menuitem id="placesContext_new:folder"
+            command="placesCmd_new:folder"
+            data-l10n-id="places-new-folder-contextmenu"
+            selectiontype="any"
+            hideifnoinsertionpoint="true"/>
+  <menuitem id="placesContext_new:separator"
+            command="placesCmd_new:separator"
+            data-l10n-id="places-new-separator"
+            closemenu="single"
+            selectiontype="any"
+            hideifnoinsertionpoint="true"/>
+  <menuseparator id="placesContext_newSeparator"/>
+  <menuitem id="placesContext_createBookmark"
+            command="placesCmd_createBookmark"
+            selection="link"
+            forcehideselection="bookmark|tagChild"/>
+  <menuitem id="placesContext_cut"
+            command="placesCmd_cut"
+            data-l10n-id="text-action-cut"
+            closemenu="single"
+            selection="bookmark|folder|separator|query"
+            forcehideselection="tagChild"/>
+  <menuitem id="placesContext_copy"
+            command="placesCmd_copy"
+            data-l10n-id="text-action-copy"
+            closemenu="single"
+            selection="any"/>
+  <menuitem id="placesContext_paste"
+            data-l10n-id="text-action-paste"
+            command="placesCmd_paste"
+            closemenu="single"
+            selectiontype="any"
+            hideifnoinsertionpoint="true"/>
+  <menuseparator id="placesContext_editSeparator"/>
+  <menuitem id="placesContext_delete"
+            data-l10n-id="text-action-delete"
+            command="placesCmd_delete"
+            closemenu="single"
+            selection="bookmark|tagChild|folder|query|dynamiccontainer|separator|host"/>
+  <menuitem id="placesContext_delete_history"
+            command="placesCmd_delete"
+            closemenu="single"
+            selection="link"
+            forcehideselection="bookmark"/>
+  <menuitem id="placesContext_deleteHost"
+            command="placesCmd_deleteDataHost"
+            data-l10n-id="places-delete-domain-data"
+            closemenu="single"
+            selection="link|host"
+            selectiontype="single"
+            forcehideselection="bookmark"/>
+  <menuseparator id="placesContext_deleteSeparator"/>
+  <menuitem id="placesContext_sortBy:name"
+            command="placesCmd_sortBy:name"
+            data-l10n-id="places-sortby-name"
+            closemenu="single"
+            selection="folder"/>
+  <menuseparator id="placesContext_sortSeparator"/>
+  <menuitem id="placesContext_show:info"
+            command="placesCmd_show:info"
+            data-l10n-id="places-properties"
+            selection="bookmark|folder|query"/>
+</menupopup>
+
+<menupopup id="placesContextManaged"
+           onpopupshowing="PlacesToolbarHelper.updateManagedBookmarksContextMenu(this)">
+  <menuitem id="placesContextManaged_open:newtab"
+            oncommand="PlacesToolbarHelper.openManagedBookmark(event, 'tab');"
+            data-l10n-id="places-open-tab"/>
+  <menuitem id="placesContextManaged_openContainer:tabs"
+            oncommand="PlacesToolbarHelper.openManagedFolder(event);"
+            onclick="checkForMiddleClick(this, event);"
+            data-l10n-id="places-open-all-in-tabs"/>
+  <menuitem id="placesContextManaged_open:newwindow"
+            oncommand="PlacesToolbarHelper.openManagedBookmark(event, 'window');"
+            data-l10n-id="places-open-window"/>
+  <menuitem id="placesContextManaged_open:newprivatewindow"
+            oncommand="PlacesToolbarHelper.openManagedBookmark(event, 'window', true);"
+            data-l10n-id="places-open-private-window"
+            hideifprivatebrowsing="true"/>
+  <menuseparator id="placesContextManaged_openSeparator"/>
+  <menuitem id="placesContextManaged_copy"
+            oncommand="PlacesToolbarHelper.copyManagedBookmark(event);"
+            data-l10n-id="text-action-copy"/>
+</menupopup>
+
+<!-- Bookmarks and history tooltip -->
+<tooltip id="bhTooltip" noautohide="true"
+         onpopupshowing="return window.top.BookmarksEventHandler.fillInBHTooltip(document, event)">
+  <vbox id="bhTooltipTextBox" flex="1">
+    <description id="bhtTitleText" class="tooltip-label" />
+    <description id="bhtUrlText" crop="center" class="tooltip-label uri-element" />
+  </vbox>
+</tooltip>
+
+  <hbox id="sidebar-search-container" align="center">
+    <search-textbox id="search-box" flex="1"
+                    data-l10n-id="places-bookmarks-search"
+                    data-l10n-attrs="placeholder"
+                    aria-controls="bookmarks-view"
+                    oncommand="searchBookmarks(this.value);"/>
+  </hbox>
+
+  <tree id="bookmarks-view"
+        class="sidebar-placesTree"
+        is="places-tree"
+        flex="1"
+        hidecolumnpicker="true"
+        context="placesContext"
+        onkeypress="PlacesUIUtils.onSidebarTreeKeyPress(event);"
+        onclick="PlacesUIUtils.onSidebarTreeClick(event);"
+        onmousemove="PlacesUIUtils.onSidebarTreeMouseMove(event);"
+        onmouseout="PlacesUIUtils.setMouseoverURL('', window);">
+    <treecols>
+      <treecol id="title" flex="1" primary="true" hideheader="true"/>
+    </treecols>
+    <treechildren view="bookmarks-view"
+                  class="sidebar-placesTreechildren" flex="1" tooltip="bhTooltip"/>
+  </tree>
+</window>
