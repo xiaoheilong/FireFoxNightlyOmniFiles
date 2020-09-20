@@ -6625,13 +6625,13 @@ var TabContextMenu = {
 
     // Adjust the state of the toggle mute menu item.
     if (this.contextTab.hasAttribute("activemedia-blocked")) {
-      toggleMute.label = gNavigatorBundle.getString("playTab.label");
+      //toggleMute.label = gNavigatorBundle.getString("playTab.label");
       toggleMute.accessKey = gNavigatorBundle.getString("playTab.accesskey");
     } else if (this.contextTab.hasAttribute("muted")) {
-      toggleMute.label = gNavigatorBundle.getString("unmuteTab.label");
+      //toggleMute.label = gNavigatorBundle.getString("unmuteTab.label");
       toggleMute.accessKey = gNavigatorBundle.getString("unmuteTab.accesskey");
     } else {
-      toggleMute.label = gNavigatorBundle.getString("muteTab.label");
+      //toggleMute.label = gNavigatorBundle.getString("muteTab.label");
       toggleMute.accessKey = gNavigatorBundle.getString("muteTab.accesskey");
     }
 

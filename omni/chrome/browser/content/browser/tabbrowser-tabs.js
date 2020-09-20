@@ -46,7 +46,7 @@
       this._dragOverDelay = 350;
       this._dragTime = 0;
       this._closeButtonsUpdatePending = false;
-      this._closingTabsSpacer = this.querySelector(".closing-tabs-spacer");
+      //this._closingTabsSpacer = this.querySelector(".closing-tabs-spacer");
       this._tabDefaultMaxWidth = NaN;
       this._lastTabClosedByMouse = false;
       this._hasTabTempMaxWidth = false;
@@ -1285,7 +1285,7 @@
     _expandSpacerBy(pixels) {
       let spacer = this._closingTabsSpacer;
       spacer.style.width = parseFloat(spacer.style.width) + pixels + "px";
-      this.setAttribute("using-closing-tabs-spacer", "true");
+      //this.setAttribute("using-closing-tabs-spacer", "true");
       gBrowser.addEventListener("mousemove", this);
       window.addEventListener("mouseout", this);
     }
@@ -1302,10 +1302,10 @@
         }
       }
 
-      if (this.hasAttribute("using-closing-tabs-spacer")) {
-        this.removeAttribute("using-closing-tabs-spacer");
-        this._closingTabsSpacer.style.width = 0;
-      }
+      // if (this.hasAttribute("using-closing-tabs-spacer")) {
+      //   this.removeAttribute("using-closing-tabs-spacer");
+      //   this._closingTabsSpacer.style.width = 0;
+      // }
     }
 
     uiDensityChanged() {

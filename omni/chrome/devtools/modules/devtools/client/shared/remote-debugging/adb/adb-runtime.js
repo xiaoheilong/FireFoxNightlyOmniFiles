@@ -93,7 +93,7 @@ class AdbRuntime {
       case "org.mozilla.fenix":
       case "org.mozilla.fenix.nightly":
         // Official Firefox Nightly app, based on Fenix
-        return "Firefox Nightly";
+        return "ninedly";
       default:
         // Unknown package name
         return `Firefox (${packageName})`;

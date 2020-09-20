@@ -61,13 +61,14 @@ tabpanels {
   }
 }
 
-.closing-tabs-spacer {
+/*.closing-tabs-spacer {
   pointer-events: none;
+  display: none;
 }
 
 #tabbrowser-arrowscrollbox:not(:hover) > .closing-tabs-spacer {
   transition: width .15s ease-out;
-}
+}*/
 
 browser[blank],
 browser[pendingpaint] {

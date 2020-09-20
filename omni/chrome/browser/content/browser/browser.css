@@ -153,8 +153,8 @@ panelview[mainview] > .panel-header {
     display: none;
   }
   #tabbrowser-tabs:not([overflow="true"])[using-closing-tabs-spacer] ~ #alltabs-button {
-    /* temporary space to keep a tab's close button under the cursor */
-    display: -moz-box;
+     temporary space to keep a tab's close button under the cursor 
+    display: none;
     visibility: hidden;
   }
 }
