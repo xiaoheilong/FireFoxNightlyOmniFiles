@@ -80,12 +80,12 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   Translation: "resource:///modules/translation/TranslationParent.jsm",
   UITour: "resource:///modules/UITour.jsm",
   UpdateUtils: "resource://gre/modules/UpdateUtils.jsm",
-  UrlbarInput: "resource:///modules/UrlbarInput.jsm",
-  UrlbarPrefs: "resource:///modules/UrlbarPrefs.jsm",
-  UrlbarProviderSearchTips: "resource:///modules/UrlbarProviderSearchTips.jsm",
-  UrlbarTokenizer: "resource:///modules/UrlbarTokenizer.jsm",
-  UrlbarUtils: "resource:///modules/UrlbarUtils.jsm",
-  UrlbarValueFormatter: "resource:///modules/UrlbarValueFormatter.jsm",
+  // UrlbarInput: "resource:///modules/UrlbarInput.jsm",
+  // UrlbarPrefs: "resource:///modules/UrlbarPrefs.jsm",
+  // UrlbarProviderSearchTips: "resource:///modules/UrlbarProviderSearchTips.jsm",
+  // UrlbarTokenizer: "resource:///modules/UrlbarTokenizer.jsm",
+  // UrlbarUtils: "resource:///modules/UrlbarUtils.jsm",
+  // UrlbarValueFormatter: "resource:///modules/UrlbarValueFormatter.jsm",
   Weave: "resource://services-sync/main.js",
   WebNavigationFrames: "resource://gre/modules/WebNavigationFrames.jsm",
   fxAccounts: "resource://gre/modules/FxAccounts.jsm",
@@ -744,17 +744,17 @@ function SetClickAndHoldHandlers() {
   popup.removeAttribute("id");
   // Prevent the back/forward buttons' context attributes from being inherited.
   popup.setAttribute("context", "");
+  //@zhengyunlong@
+  // let backButton = document.getElementById("back-button");
+  // backButton.setAttribute("type", "menu");
+  // backButton.prepend(popup);
+  // gClickAndHoldListenersOnElement.add(backButton);
 
-  let backButton = document.getElementById("back-button");
-  backButton.setAttribute("type", "menu");
-  backButton.prepend(popup);
-  gClickAndHoldListenersOnElement.add(backButton);
-
-  let forwardButton = document.getElementById("forward-button");
-  popup = popup.cloneNode(true);
-  forwardButton.setAttribute("type", "menu");
-  forwardButton.prepend(popup);
-  gClickAndHoldListenersOnElement.add(forwardButton);
+  // let forwardButton = document.getElementById("forward-button");
+  // popup = popup.cloneNode(true);
+  // forwardButton.setAttribute("type", "menu");
+  // forwardButton.prepend(popup);
+  // gClickAndHoldListenersOnElement.add(forwardButton);
 }
 
 const gClickAndHoldListenersOnElement = {
